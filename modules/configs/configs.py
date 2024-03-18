@@ -18,7 +18,7 @@ class Configs():
         self.model = data['model']
         self.path_info = data['path_info']
         if self.path_info:
-            self.save_dir_model = f'{self.model}_{self.num_epochs}ep_{self.patience}p_{self.lr}lr_{self.path_info}'
+            self.save_dir_model = f'./models/{self.model}_{self.num_epochs}ep_{self.patience}p_{self.lr}lr_{self.path_info}'
         else:
-            self.save_dir_model = f'{self.model}_{self.num_epochs}ep_{self.patience}p_{self.lr}lr'
+            self.save_dir_model = f'./models/{self.model}_{self.num_epochs}ep_{self.patience}p_{self.lr}lr'
         self.model_checkpoint = data['model_checkpoint']

@@ -17,6 +17,8 @@ class UNET(L.LightningModule):
         self.upconv3 = self.expand_block(128, 64, 3, 1)
         self.upconv2 = self.expand_block(64*2, 32, 3, 1)
         self.upconv1 = self.expand_block(32*2, out_channels, 3, 1)
+        
+        self.save_hyperparameters()
 
     def forward(self, x):
         # downsampling part
@@ -63,10 +65,10 @@ class UNET(L.LightningModule):
         dice_coefficient = Utils.dice_coefficient(y_hat, y)
         accuracy = Utils.accuracy(y_hat, y)
 
-        self.log('train_loss', loss, on_step=False, on_epoch=True, prog_bar=True)
-        self.log('train_iou', iou, on_step=False, on_epoch=True, prog_bar=True)
-        self.log('train_dice_coefficient', dice_coefficient, on_step=False, on_epoch=True, prog_bar=True)
-        self.log('train_accuracy', accuracy, on_step=False, on_epoch=True, prog_bar=True)
+        self.log('losses/train_loss', loss, on_step=True, on_epoch=True, prog_bar=True)
+        self.log('train/train_iou', iou, on_step=True, on_epoch=True, prog_bar=True)
+        self.log('train/train_dice_coefficient', dice_coefficient, on_step=True, on_epoch=True, prog_bar=True)
+        self.log('train/train_accuracy', accuracy, on_step=True, on_epoch=True, prog_bar=True)
         
         return loss
 
@@ -78,10 +80,10 @@ class UNET(L.LightningModule):
         dice_coefficient = Utils.dice_coefficient(y_hat, y)
         accuracy = Utils.accuracy(y_hat, y)
 
-        self.log('val_loss', loss, on_step=False, on_epoch=True, prog_bar=True)
-        self.log('val_iou', iou, on_step=False, on_epoch=True, prog_bar=True)
-        self.log('val_dice_coefficient', dice_coefficient, on_step=False, on_epoch=True, prog_bar=True)
-        self.log('val_accuracy', accuracy, on_step=False, on_epoch=True, prog_bar=True)
+        self.log('losses/val_loss', loss, on_step=True, on_epoch=True, prog_bar=True)
+        self.log('validation/val_iou', iou, on_step=True, on_epoch=True, prog_bar=True)
+        self.log('validation/val_dice_coefficient', dice_coefficient, on_step=True, on_epoch=True, prog_bar=True)
+        self.log('validation/val_accuracy', accuracy, on_step=True, on_epoch=True, prog_bar=True)
         
         return loss
 

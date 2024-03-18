@@ -1,7 +1,7 @@
 {
     "lr": 1e-3,
-    "batch_size": 32,
-    "num_epochs": 8,
+    "batch_size": 16,
+    "num_epochs": 5,
     "num_workers": 4,
     "patience": 2,
     "seed": 42,
@@ -11,5 +11,6 @@
     "model": "unet",
     "path_info": "dataaugmentation",
     "transforms": "True",
-    "model_checkpoint": "D:/TCC/TCC_modelos/logs/my_model/version_14/checkpoints/epoch=14-step=3150.ckpt"
+    "model_checkpoint": "D:/TCC/TCC_modelos/logs/my_model/version_14/checkpoints/epoch=14-step=3150.ckpt",
+    "logger": "wandb"
 }

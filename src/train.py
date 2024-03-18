@@ -3,13 +3,15 @@ from datamodule_38 import CloudDataModule
 from unet_model import UNET
 import lightning as L
 import warnings
-from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning.loggers import TensorBoardLogger, WandbLogger
 from lightning.pytorch.callbacks import EarlyStopping
 from configs import Configs
 from fpn_model import FPN
 from maskrcnn_model import MaskRCNNModel
 from maskrcnn_lightning import MaskRCNNLightning
 import torch
+import wandb
+
 
 
 if __name__ == "__main__":
@@ -20,16 +22,24 @@ if __name__ == "__main__":
 
 
     earlystop_callback = EarlyStopping(
-        monitor='val_loss',
+        monitor='losses/val_loss',
         min_delta=0.00,
         patience=config.patience,
         verbose=True,
         mode='min'
     )
+    
+    if config.data['logger'] == "wandb":
+        logger = WandbLogger(name=f"{config.model}_{config.lr}_{config.path_info}", project="38-Cloud", log_model='all', save_dir=config.save_dir_model)
+        logger.log_hyperparams(config.data)
 
-    logger = TensorBoardLogger("logs", name="my_model", sub_dir=config.save_dir_model)
+
+    else:
+        logger = TensorBoardLogger("logs", name="my_model", save_dir=config.save_dir_model)
+
     base_path = Path('D:/TCC/selection_cloud/38-cloud/38-Cloud_training')
     transform = True if config.data['transforms'] == 'True' else False
+    # transform = False
     data = CloudDataModule(base_path/'train_red',
                         base_path/'train_green',
                         base_path/'train_blue',
