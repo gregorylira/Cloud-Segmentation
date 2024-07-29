@@ -1,0 +1,6 @@
+path: /content/yolo
+train: images/train
+val: images/val
+
+nc: 1
+names: ["cloud"]
